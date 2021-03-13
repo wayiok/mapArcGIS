@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>esri</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#marker {
+background-image: url('https://pbs.twimg.com/profile_images/964138024287244288/OOH9oUl__400x400.jpg');
+background-size: cover;
+width: 60px;
+height: 60px;
+border-radius: 50%;
+cursor: pointer;
+}
+ 
+#menu {
+position: absolute;
+background: #efefef;
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+} 
+.mapboxgl-popup {
+max-width: 200px;
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="menu">
+<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+<label for="satellite-v9">SATELITE</label>
+<input id="light-v10" type="radio" name="rtoggle" value="light">
+<label for="light-v10">LIGERO</label>
+<input id="dark-v10" type="radio" name="rtoggle" value="dark">
+<label for="dark-v10">OSCURO</label>
+<input id="streets-v11" type="radio" name="rtoggle" value="streets">
+<label for="streets-v11">CALLES</label>
+</div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY2VzYXJhbmFzY28iLCJhIjoiY2s5NTcweDF2MDE2bjNmcDd0aTM0Z2wxNSJ9.gA4RpRVwx7GIeOpg0EtTPQ';
+
+
+var map = new mapboxgl.Map({
+container: 'map', 
+style: 'mapbox://styles/cesaranasco/ckm7edhmg1quf17lasrtb4sxd', 
+center: [-78.481834, -0.181545], 
+zoom: 17 
+});
+
+var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+'Oficinas ESRI'
+);
+ 
+var el = document.createElement('div');
+el.id = 'marker';
+
+new mapboxgl.Marker(el)
+.setLngLat([-78.481834, -0.181545])
+.setPopup(popup) 
+.addTo(map);
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+var layerId = layer.target.id;
+map.setStyle('mapbox://styles/mapbox/' + layerId);
+}
+ 
+for (var i = 0; i < inputs.length; i++) {
+inputs[i].onclick = switchLayer;
+}
+
+</script>
+ 
+</body>
+</html>
